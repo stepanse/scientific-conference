@@ -68,7 +68,11 @@ class Talk(models.Model):
     ]
 
     day = models.ForeignKey(
-        ConferenceDay, related_name="items", on_delete=models.CASCADE
+        ConferenceDay, 
+        related_name="items", 
+        on_delete=models.CASCADE,
+        null=True,  
+        blank=True  
     )
 
     session = models.ForeignKey(
@@ -101,8 +105,10 @@ class Talk(models.Model):
         blank=True
     )
 
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    start_time = models.TimeField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
+
+    is_scheduled = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["start_time"]
@@ -246,14 +252,32 @@ class ParticipantSubmission(models.Model):
                     authors=all_authors,
                     department=all_affiliations,
                 )
-        
+        # НОВОЕ: Создаем Talk (без времени и дня - это админ настроит позже)
+        talk = None
+        if abstract:  # Talk создаем только если есть абстракт
+            if hasattr(abstract, 'talk') and abstract.talk:
+            # Talk уже существует, обновляем
+                talk = abstract.talk
+                talk.title = abstract.title
+                talk.participant = participant
+                talk.save()
+        else:
+            # Создаем новый Talk
+            talk = Talk.objects.create(
+                title=abstract.title,
+                participant=participant,
+                abstract=abstract,
+                talk_type='talk',
+                is_scheduled=False,  # Еще не в расписании
+                # day, start_time, end_time = None (будут установлены позже)
+            )
         self.published_participant = participant
         self.published_abstract = abstract
         self.status = 'approved'
         self.reviewed_at = timezone.now()
         self.save()
         
-        return participant, abstract
+        return participant, abstract, talk
     
     def delete(self, *args, **kwargs):
         

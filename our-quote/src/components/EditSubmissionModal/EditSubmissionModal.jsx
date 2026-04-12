@@ -44,7 +44,6 @@ export default function EditSubmissionModal({ submission, onClose, onSave }) {
     setModal(prev => ({ ...prev, isOpen: false }));
   }
 
-
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -120,14 +119,97 @@ export default function EditSubmissionModal({ submission, onClose, onSave }) {
     }
   };
 
-  const removePhoto = () => {
-    setPhoto(null);
-    setPhotoPreview(null);
+  const removePhoto = async () => {
+    if (!window.confirm('Are you sure you want to remove the photo?')) {
+      return;
+    }
 
-    // Clean the input file
-    const fileInput = document.querySelector('input[type="file"]');
-    if (fileInput) {
-      fileInput.value = '';
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("access_token");
+
+      if (!token) {
+        openModal({
+          title: "Session expired",
+          message: "Please login again.",
+          type: "danger",
+          onConfirm: () => {
+            closeModal();
+            navigate("/");
+          }
+        });
+        setLoading(false);
+        return;
+      }
+
+    
+      const response = await fetch(`http://localhost:8000/api/admin/submissions/${submission.id}/`, {
+        method: 'PATCH',
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          photo: null  
+        }),
+      });
+
+      if (response.status === 401) {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        openModal({
+          title: "Session expired",
+          message: "Please login again.",
+          type: "danger",
+          onConfirm: () => {
+            closeModal();
+            navigate("/");
+          }
+        });
+        setLoading(false);
+        return;
+      }
+
+      if (response.ok) {
+        setPhoto(null);
+        setPhotoPreview(null);
+        
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) {
+          fileInput.value = '';
+        }
+
+        openModal({
+          title: "Success",
+          message: "Photo removed successfully!",
+          type: "success",
+          onConfirm: async () => {
+            closeModal();
+            const updated = await response.json();
+            onSave(updated);
+          }
+        });
+      } else {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        openModal({
+          title: "Error",
+          message: `Failed to remove photo: ${errorText}`,
+          type: "danger",
+          onConfirm: closeModal
+        });
+      }
+    } catch (error) {
+      console.error("Error removing photo:", error);
+      openModal({
+        title: "Connection error",
+        message: error.message,
+        type: "danger",
+        onConfirm: closeModal
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -148,6 +230,7 @@ export default function EditSubmissionModal({ submission, onClose, onSave }) {
             navigate("/");
           }
         });
+        setLoading(false);
         return;
       }
 
@@ -192,7 +275,7 @@ export default function EditSubmissionModal({ submission, onClose, onSave }) {
             navigate("/");
           }
         });
-        window.location.href = "/";
+        setLoading(false);
         return;
       }
 
@@ -249,36 +332,37 @@ export default function EditSubmissionModal({ submission, onClose, onSave }) {
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.photoSection}>
-  {photoPreview ? (
-    <div className={styles.photoPreview}>
-      <img src={photoPreview} alt="Preview" />
-    </div>
-  ) : (
-    <img src={avatar} alt="No photo" className={styles.avatarPlaceholder} />
-  )}
-  
-  <div className={styles.photoButtons}>
-    <label className={styles.uploadButton}>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handlePhotoChange}
-        style={{ display: 'none' }}
-      />
-      Change Photo
-    </label>
-    
-    {photoPreview && (
-      <button
-        type="button"
-        onClick={removePhoto}
-        className={styles.removeButton}
-      >
-        Remove Photo
-      </button>
-    )}
-  </div>
-</div>
+            {photoPreview ? (
+              <div className={styles.photoPreview}>
+                <img src={photoPreview} alt="Preview" />
+              </div>
+            ) : (
+              <img src={avatar} alt="No photo" className={styles.avatarPlaceholder} />
+            )}
+            
+            <div className={styles.photoButtons}>
+              <label className={styles.uploadButton}>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
+                  style={{ display: 'none' }}
+                />
+                Change Photo
+              </label>
+              
+              {photoPreview && (
+                <button
+                  type="button"
+                  onClick={removePhoto}
+                  className={styles.removeButton}
+                  disabled={loading}
+                >
+                  Remove Photo
+                </button>
+              )}
+            </div>
+          </div>
 
           <div className={styles.formGrid}>
             <div className={styles.field}>
@@ -409,7 +493,6 @@ export default function EditSubmissionModal({ submission, onClose, onSave }) {
           onCancel={closeModal}
         />
       </div>
-
     </div>,
     document.body
   );

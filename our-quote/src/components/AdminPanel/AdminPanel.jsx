@@ -107,16 +107,16 @@ export default function AdminPanel() {
                     <span className={styles.iconWrapper}>
                         <FontAwesomeIcon icon="fa-solid fa-user-gear" className={styles.adminIcon}/>
                     </span>
-                    <h3 className={styles.buttonTitle}>Edit Participants</h3>
-                    <p className={styles.description}>Add, edit or remove participants</p>
+                    <h3 className={styles.buttonTitle}>Edit Participants and Abstracts</h3>
+                    <p className={styles.description}>Add, edit or remove participants and their abstracts</p>
                 </Link>
 
                 <Link to="/admin-panel/edit-abstracts" className={styles.adminButton}>
                     <span className={styles.iconWrapper}>
                         <FontAwesomeIcon icon="fa-solid fa-newspaper" className={styles.adminIcon} />
                     </span>
-                    <h3 className={styles.buttonTitle}>Edit Abstracts</h3>
-                    <p className={styles.description}>Manage abstract submissions</p>
+                    <h3 className={styles.buttonTitle}>Download Badges</h3>
+                    <p className={styles.description}>Generate and download participant badges</p>
                 </Link>
 
                 <Link to="/admin-panel/edit-program" className={styles.adminButton}>

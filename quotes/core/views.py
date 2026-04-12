@@ -117,6 +117,36 @@ class SubmissionDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUser]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
+# Admin: get unscheduled talks (talks without time/day)
+class UnscheduledTalksView(generics.ListAPIView):
+    serializer_class = TalkSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+    
+    def get_queryset(self):
+        # Talks без времени или дня
+        return Talk.objects.filter(is_scheduled=False).select_related('participant', 'abstract')
+
+
+# Admin: update talk schedule
+class TalkScheduleUpdateView(generics.UpdateAPIView):
+    queryset = Talk.objects.all()
+    serializer_class = TalkSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+    
+    def update(self, request, *args, **kwargs):
+        talk = self.get_object()
+        
+        talk.day_id = request.data.get('day')
+        talk.session_id = request.data.get('session')
+        talk.start_time = request.data.get('start_time')
+        talk.end_time = request.data.get('end_time')
+        talk.is_scheduled = True
+        talk.save()
+        
+        serializer = self.get_serializer(talk)
+        return Response(serializer.data)
 
 # Admin: publish submission
 @api_view(['POST'])
@@ -137,16 +167,20 @@ def publish_submission(request, pk):
         }, status=200)
     
     try:
-        participant, abstract = submission.publish()
+        participant, abstract, talk = submission.publish()
         
         return Response({
             "message": "Published successfully",
             "participant_id": participant.id,
             "abstract_id": abstract.id if abstract else None,
             "participant_name": participant.name,
-            "abstract_title": abstract.title if abstract else None
+            "abstract_title": abstract.title if abstract else None,
+            "talk_id": talk.id if talk else None,  
+            "talk_created": talk is not None  
         }, status=200)
     except Exception as e:
+        import traceback
+        traceback.print_exc()  # Для отладки
         return Response({
             "error": f"Failed to publish: {str(e)}"
         }, status=500)

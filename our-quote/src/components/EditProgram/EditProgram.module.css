@@ -1,0 +1,252 @@
+.container {
+    padding: 50px 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 60vh;
+  background-color: var(--accent-color);
+}
+
+.backBtn {
+background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  cursor: pointer;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+  font-family: var(--font-title);
+  transition: background-color 0.3s ease;
+}
+
+.backBtn:hover {
+  background-color: var(--hover-color);
+}
+
+.section {
+  margin: 40px 0;
+}
+
+
+
+.description {
+  color: #666;
+  margin-bottom: 20px;
+  font-family: var(--font--main);
+}
+
+.noData {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+  font-family: var(--font--main);
+}
+
+.talksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.talkCard {
+  background: var(--accent-color);
+  border: 1px solid var(--secondary-color);
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.talkHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.talkHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  font-family: var(--font--main);
+  flex: 1;
+}
+
+.badge {
+  background: #fff3cd;
+  color: #856404;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: var(--font--main);
+}
+
+.talkBody {
+  margin-bottom: 16px;
+}
+
+.talkBody p {
+  margin: 8px 0;
+  font-family: var(--font--main);
+  font-size: 14px;
+}
+
+.abstractPreview {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 6px;
+  color: #666;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.scheduleBtn {
+  width: 100%;
+  padding: 12px;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font--title);
+  font-weight: 400;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+
+.scheduleBtn:hover {
+  background: var(--hover-color);
+}
+
+.scheduler {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scheduler label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--font--main);
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+}
+
+.scheduler select,
+.scheduler input {
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-family: var(--font--main);
+  font-size: 14px;
+}
+
+.scheduler select:focus,
+.scheduler input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.schedulerActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.saveBtn {
+  flex: 1;
+  padding: 10px;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font--title);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.saveBtn:hover {
+  background: var(--hover-color);
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 10px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font--title);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.cancelBtn:hover {
+  background: #5a6268;
+}
+
+.programPreview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.daySchedule {
+  background: var(--accent-color);
+  padding: 20px;
+  border: 1px solid var(--secondary-color);
+}
+
+.daySchedule h3 {
+  margin: 0 0 16px 0;
+  font-family: var(--font--main);
+  color: #333;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: rgb(244, 244, 244);
+  border-radius: 6px;
+}
+
+.time {
+  font-family: var(--font--main);
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  min-width: 100px;
+}
+
+.itemTitle {
+  font-family: var(--font--main);
+  font-size: 14px;
+  color: #333;
+}
+
+.noSchedule {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+  font-family: var(--font--main);
+}
+
+@media (max-width: 768px) {
+  .talksGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .programPreview {
+    grid-template-columns: 1fr;
+  }
+}

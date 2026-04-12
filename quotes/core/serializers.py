@@ -127,6 +127,8 @@ class OrganizingCommitteeSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "department", "email", "photo"]
 
 
+
+
 class ParticipantSubmissionSerializer(serializers.ModelSerializer):
     stay_duration = serializers.ReadOnlyField()
     
@@ -143,28 +145,34 @@ class ParticipantSubmissionSerializer(serializers.ModelSerializer):
         read_only_fields = ['submitted_at', 'reviewed_at', 'published_participant', 'published_abstract', 'stay_duration']
     
     def validate(self, data):
-
-        if data.get('departure_date') and data.get('arrival_date'):
-            if data['departure_date'] <= data['arrival_date']:
-                raise serializers.ValidationError({
-                    'departure_date': 'Departure date must be after arrival date'
-                })
-        return data
-
-    def update(self, instance, validated_data):
-
-        photo = validated_data.pop('photo', None)
+        arrival = data.get('arrival_date') or (self.instance.arrival_date if self.instance else None)
+        departure = data.get('departure_date') or (self.instance.departure_date if self.instance else None)
         
-
+        if departure and arrival and departure <= arrival:
+            raise serializers.ValidationError({
+                'departure_date': 'Departure date must be after arrival date'
+            })
+        return data
+    
+    def update(self, instance, validated_data):
+        if 'photo' in validated_data:
+            photo = validated_data.pop('photo')
+            
+            # If photo is explicitly set to None, delete existing photo
+            if photo is None and instance.photo:
+                instance.photo.delete(save=False)
+                instance.photo = None
+            elif photo:
+                # delete old photo if exists
+                if instance.photo:
+                    instance.photo.delete(save=False)
+                instance.photo = photo
+        
+        # Update all other fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         
-
-        if photo:
-            instance.photo = photo
-        
         instance.save()
-
 
         if instance.status == 'approved' and instance.published_participant:
             self._update_published_data(instance)
@@ -172,18 +180,24 @@ class ParticipantSubmissionSerializer(serializers.ModelSerializer):
         return instance
     
     def _update_published_data(self, instance):
-
+        # Update Participant
         participant = instance.published_participant
         participant.name = instance.name
         participant.email = instance.email
         participant.affiliation = instance.affiliation
+        
+        # Handle photo update
         if instance.photo:
             participant.photo = instance.photo
+        else:
+            if participant.photo:
+                participant.photo.delete(save=False)
+            participant.photo = None
+        
         participant.save()
         
-
+        # Update or create Abstract
         if instance.abstract_title or instance.abstract_text:
-
             all_authors = instance.name
             if instance.additional_authors:
                 all_authors += f", {instance.additional_authors}"
