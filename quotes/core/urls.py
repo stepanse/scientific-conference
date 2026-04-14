@@ -11,7 +11,7 @@ from .views import (
     TalkDetailView,
     OrganizerListAPIView,
     OrganizingCommitteeListAPIView,
-    AdminPanelView, SubmissionCreateView, SubmissionListView, SubmissionDetailView, publish_submission, UnscheduledTalksView, TalkScheduleUpdateView
+    AdminPanelView, SubmissionCreateView, SubmissionListView, SubmissionDetailView, publish_submission, UnscheduledTalksView, TalkScheduleUpdateView, UnscheduledTalkDeleteView, ScheduleBreakCreateView, SessionCreateView, SessionListView
 )
 
 urlpatterns = [
@@ -37,4 +37,8 @@ urlpatterns = [
     # Admin: unscheduled talks
     path("admin/talks/unscheduled/", UnscheduledTalksView.as_view(), name="unscheduled-talks"),
     path("admin/talks/<int:pk>/schedule/", TalkScheduleUpdateView.as_view(), name="talk-schedule"),
+    path("admin/talks/<int:pk>/delete/", UnscheduledTalkDeleteView.as_view(), name="talk-delete"),
+    path("admin/talks/create-break/", ScheduleBreakCreateView.as_view(), name="create-break"),
+    path("admin/sessions/create/", SessionCreateView.as_view(), name="session-create"),
+    path("admin/sessions/", SessionListView.as_view(), name="sessions-list"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

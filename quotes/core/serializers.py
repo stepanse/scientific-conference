@@ -63,7 +63,7 @@ class SessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Session
-        fields = ["id", "chair", "start_time", "end_time", "talks"]
+        fields = ["id","day", "chair", "start_time", "end_time", "talks"]
 
     def get_talks(self, session):
         qs = session.talks.all().order_by("start_time")

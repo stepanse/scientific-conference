@@ -250,3 +250,85 @@ background-color: var(--secondary-color);
     grid-template-columns: 1fr;
   }
 }
+.timeInput::-webkit-datetime-edit-second-field,
+.timeInput::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
+
+.talkCardActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.deleteBtn {
+  padding: 8px 16px;
+  background-color: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.deleteBtn:hover {
+  background-color: #c53030;
+}
+.addBreakBtn {
+  margin-top: 12px;
+  padding: 6px 14px;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px dashed var(--color-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.addBreakBtn:hover {
+  background-color: var(--color-surface-offset);
+  color: var(--color-text);
+}
+
+.breakForm {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: var(--color-surface-offset);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.breakForm input[type="text"] {
+  margin-left: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+.dayActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.addSessionBtn {
+  padding: 6px 14px;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px dashed var(--color-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.addSessionBtn:hover {
+  background-color: var(--color-primary-highlight);
+  color: var(--color-primary);
+}

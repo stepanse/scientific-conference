@@ -1,5 +1,7 @@
 # Create your views here.
 
+from urllib import request
+
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.response import Response
@@ -137,11 +139,21 @@ class TalkScheduleUpdateView(generics.UpdateAPIView):
     
     def update(self, request, *args, **kwargs):
         talk = self.get_object()
+
+        day_id = request.data.get('day')
+        start_time = request.data.get('start_time')
+        end_time = request.data.get('end_time')
+
+        if not day_id or not start_time or not end_time:
+            return Response(
+            {"error": "day, start_time and end_time are required"},
+            status=status.HTTP_400_BAD_REQUEST
+            )
         
-        talk.day_id = request.data.get('day')
-        talk.session_id = request.data.get('session')
-        talk.start_time = request.data.get('start_time')
-        talk.end_time = request.data.get('end_time')
+        talk.day_id = day_id
+        talk.session_id = request.data.get('session')  
+        talk.start_time = start_time   
+        talk.end_time = end_time
         talk.is_scheduled = True
         talk.save()
         
@@ -184,3 +196,87 @@ def publish_submission(request, pk):
         return Response({
             "error": f"Failed to publish: {str(e)}"
         }, status=500)
+    
+class UnscheduledTalkDeleteView(generics.DestroyAPIView):
+    queryset = Talk.objects.all()
+    serializer_class = TalkSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def destroy(self, request, *args, **kwargs):
+        talk = self.get_object()
+
+        if talk.is_scheduled:
+            return Response(
+                {"error": "Cannot delete a scheduled talk from here"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        talk.delete()
+        return Response({"message": "Talk deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    
+# Admin: create a break/event in schedule
+class ScheduleBreakCreateView(generics.CreateAPIView):
+    queryset = Talk.objects.all()
+    serializer_class = TalkSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def create(self, request, *args, **kwargs):
+        day_id = request.data.get('day')
+        start_time = request.data.get('start_time')
+        end_time = request.data.get('end_time')
+        title = request.data.get('title', 'Break')
+        talk_type = request.data.get('talk_type', 'break')
+
+        if not day_id or not start_time or not end_time:
+            return Response(
+                {"error": "day, start_time and end_time are required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        talk = Talk.objects.create(
+            title=title,
+            talk_type=talk_type,
+            day_id=day_id,
+            start_time=start_time,
+            end_time=end_time,
+            is_scheduled=True,
+        )
+
+        serializer = self.get_serializer(talk)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+# Admin: create session
+class SessionCreateView(generics.CreateAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def create(self, request, *args, **kwargs):
+        day_id = request.data.get('day')
+        chair = request.data.get('chair', '')
+
+        if not day_id:
+            return Response(
+                {"error": "day is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        session = Session.objects.create(
+            day_id=day_id,
+            chair=chair,
+        )
+
+        serializer = self.get_serializer(session)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+class SessionListView(generics.ListAPIView):
+    serializer_class = SessionSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        day_id = self.request.query_params.get('day', None)
+        if day_id:
+            return Session.objects.filter(day_id=day_id)
+        return Session.objects.all()
