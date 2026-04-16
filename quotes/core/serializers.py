@@ -196,7 +196,6 @@ class ParticipantSubmissionSerializer(serializers.ModelSerializer):
         
         participant.save()
         
-        # Update or create Abstract
         if instance.abstract_title or instance.abstract_text:
             all_authors = instance.name
             if instance.additional_authors:
@@ -223,3 +222,18 @@ class ParticipantSubmissionSerializer(serializers.ModelSerializer):
                 )
                 instance.published_abstract = abstract
                 instance.save()
+        if abstract:
+            try:
+                talk = abstract.talk  
+                talk.title = abstract.title
+                talk.participant = participant
+                talk.save()
+            except Exception:
+                from .models import Talk
+                Talk.objects.create(
+                    title=abstract.title,
+                    participant=participant,
+                    abstract=abstract,
+                    talk_type='talk',
+                    is_scheduled=False,
+                )

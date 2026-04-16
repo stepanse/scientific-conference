@@ -280,3 +280,16 @@ class SessionListView(generics.ListAPIView):
         if day_id:
             return Session.objects.filter(day_id=day_id)
         return Session.objects.all()
+    
+class ConferenceDayCreateView(generics.CreateAPIView):
+    queryset = ConferenceDay.objects.all()
+    serializer_class = ConferenceDaySerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
+class SessionUpdateTimeView(generics.UpdateAPIView):
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+    http_method_names = ['patch']

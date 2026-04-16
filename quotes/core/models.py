@@ -100,7 +100,7 @@ class Talk(models.Model):
     abstract = models.OneToOneField(
         Abstract,
         related_name="talk",
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         null=True,
         blank=True
     )
@@ -252,25 +252,22 @@ class ParticipantSubmission(models.Model):
                     authors=all_authors,
                     department=all_affiliations,
                 )
-        # НОВОЕ: Создаем Talk (без времени и дня - это админ настроит позже)
+
         talk = None
-        if abstract:  # Talk создаем только если есть абстракт
+        if abstract:  
             if hasattr(abstract, 'talk') and abstract.talk:
-            # Talk уже существует, обновляем
                 talk = abstract.talk
                 talk.title = abstract.title
                 talk.participant = participant
                 talk.save()
-        else:
-            # Создаем новый Talk
-            talk = Talk.objects.create(
-                title=abstract.title,
-                participant=participant,
-                abstract=abstract,
-                talk_type='talk',
-                is_scheduled=False,  # Еще не в расписании
-                # day, start_time, end_time = None (будут установлены позже)
-            )
+            else:                              
+                talk = Talk.objects.create(
+                    title=abstract.title,
+                    participant=participant,
+                    abstract=abstract,
+                    talk_type='talk',
+                    is_scheduled=False,
+                )
         self.published_participant = participant
         self.published_abstract = abstract
         self.status = 'approved'
