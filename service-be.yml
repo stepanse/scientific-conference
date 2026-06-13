@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: scientific-conference-backend-svc
+spec:
+  type: ClusterIP
+  ports:
+  - name: scientific-conference-backend-port
+    port: 80
+    targetPort: 8000
+  selector:
+    app: scientific-conference-backend

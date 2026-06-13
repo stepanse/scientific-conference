@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scientific-conference-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: scientific-conference-frontend
+  template:
+    metadata:
+      labels:
+        app: scientific-conference-frontend
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: scientific-conference-frontend
+        image: "ghcr.io/stepanse/scientific-conference-frontend:main"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - containerPort: 3000
