@@ -13,7 +13,7 @@ export default function Program() {
     const info = useConferenceInfo();
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/program/")
+        fetch("http://scientific-conference-backend.tutik/api/program/")
             .then(res => res.json())
             .then(data => {
                 setData(data);

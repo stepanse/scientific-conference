@@ -10,7 +10,7 @@ export default function ParticipantsCard({ name, department, email, abstractId, 
   }
 
 const imgSrc = photo
-  ? (photo.startsWith("http") ? photo : `http://localhost:8000${photo}`)
+  ? (photo.startsWith("http") ? photo : `http://scientific-conference-backend.tutik${photo}`)
   : avatar;
 
 

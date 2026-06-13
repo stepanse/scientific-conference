@@ -9,7 +9,7 @@ export default function Organisers() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/organizers/")
+    fetch("http://scientific-conference-backend.tutik/api/organizers/")
       .then(res => res.json())
       .then(data => {
         setOrganisers(data);

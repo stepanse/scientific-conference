@@ -10,7 +10,7 @@ export default function OrganisingCommittee() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/committees/")
+        fetch("http://scientific-conference-backend.tutik/api/committees/")
             .then(res => res.json())
             .then(data => {
                 setOrganisers(data);

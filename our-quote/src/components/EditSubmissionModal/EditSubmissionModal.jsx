@@ -66,7 +66,7 @@ export default function EditSubmissionModal({ submission, onClose, onSave }) {
       if (submission.photo) {
         setPhotoPreview(submission.photo.startsWith('http')
           ? submission.photo
-          : `http://localhost:8000${submission.photo}`
+          : `http://scientific-conference-backend.tutik${submission.photo}`
         );
       }
 
@@ -144,7 +144,7 @@ export default function EditSubmissionModal({ submission, onClose, onSave }) {
       }
 
     
-      const response = await fetch(`http://localhost:8000/api/admin/submissions/${submission.id}/`, {
+      const response = await fetch(`http://scientific-conference-backend.tutik/api/admin/submissions/${submission.id}/`, {
         method: 'PATCH',
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -245,7 +245,7 @@ export default function EditSubmissionModal({ submission, onClose, onSave }) {
         });
         submitData.append('photo', photo);
 
-        response = await fetch(`http://localhost:8000/api/admin/submissions/${submission.id}/`, {
+        response = await fetch(`http://scientific-conference-backend.tutik/api/admin/submissions/${submission.id}/`, {
           method: 'PUT',
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -253,7 +253,7 @@ export default function EditSubmissionModal({ submission, onClose, onSave }) {
           body: submitData,
         });
       } else {
-        response = await fetch(`http://localhost:8000/api/admin/submissions/${submission.id}/`, {
+        response = await fetch(`http://scientific-conference-backend.tutik/api/admin/submissions/${submission.id}/`, {
           method: 'PATCH',
           headers: {
             "Authorization": `Bearer ${token}`,

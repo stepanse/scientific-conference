@@ -82,7 +82,7 @@ export default function RegistrationForm() {
           submitData.append('photo', photo);
         }
 
-        const response = await fetch("http://localhost:8000/api/submit/", {
+        const response = await fetch("http://scientific-conference-backend.tutik/api/submit/", {
           method: "POST",
           body: submitData,
         });

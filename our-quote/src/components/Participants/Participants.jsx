@@ -9,7 +9,7 @@ export default function Participants() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/participants/")
+    fetch("http://scientific-conference-backend.tutik/api/participants/")
       .then(res => res.json())
       .then(data => {
         setParticipants(data);

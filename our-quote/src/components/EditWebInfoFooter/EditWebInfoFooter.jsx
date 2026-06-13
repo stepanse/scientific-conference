@@ -5,7 +5,7 @@ import Title from '../ui/Title/Title';
 import Loader from '../ui/Loader/Loader';
 import { fetchWithAuth } from '../../utils/api';
 
-const API = 'http://localhost:8000/api';
+const API = 'http://scientific-conference-backend.tutik/api';
 
 export default function EditWebInfoFooter() {
   const [form, setForm] = useState(null);

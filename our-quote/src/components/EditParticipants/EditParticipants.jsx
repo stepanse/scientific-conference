@@ -36,7 +36,7 @@ export default function EditParticipants() {
       return;
     }
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/admin/submissions/?status=${filter}`, {
+      const res = await fetchWithAuth(`http://scientific-conference-backend.tutik/api/admin/submissions/?status=${filter}`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       if (res.status === 401) {
@@ -60,7 +60,7 @@ export default function EditParticipants() {
   async function publishSubmission(id) {
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/admin/submissions/${id}/publish/`, {
+      const res = await fetchWithAuth(`http://scientific-conference-backend.tutik/api/admin/submissions/${id}/publish/`, {
         method: 'POST',
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -106,7 +106,7 @@ export default function EditParticipants() {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:8000/api/admin/submissions/${id}/`, {
+      const res = await fetch(`http://scientific-conference-backend.tutik/api/admin/submissions/${id}/`, {
         method: 'DELETE',
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -162,7 +162,7 @@ export default function EditParticipants() {
   function getPhotoUrl(photoPath) {
     if (!photoPath) return null;
     if (photoPath.startsWith('http')) return photoPath;
-    return `http://localhost:8000${photoPath}`;
+    return `http://scientific-conference-backend.tutik${photoPath}`;
   }
 
   function handleSaveSubmission(updatedSubmission) {

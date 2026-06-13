@@ -13,7 +13,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 
 async function handleDownloadProgram() {
     const token = localStorage.getItem("access_token");
-    const res = await fetch("http://localhost:8000/api/admin/program/download/", {
+    const res = await fetch("http://scientific-conference-backend.tutik/api/admin/program/download/", {
         headers: { "Authorization": `Bearer ${token}` }
     });
     const blob = await res.blob();
@@ -28,7 +28,7 @@ async function handleDownloadProgram() {
 async function handleDownloadBadges() {
     const token = localStorage.getItem("access_token");
     try {
-        const res = await fetch("http://localhost:8000/api/admin/badges/download/", {
+        const res = await fetch("http://scientific-conference-backend.tutik/api/admin/badges/download/", {
             headers: { "Authorization": `Bearer ${token}` }
         });
         if (!res.ok) { alert("Failed to generate badges"); return; }
@@ -56,7 +56,7 @@ export default function AdminPanel() {
             const token = localStorage.getItem("access_token");
             if (!token) { navigate("/"); return; }
             try {
-                const res = await fetchWithAuth("http://localhost:8000/api/admin-panel/", {
+                const res = await fetchWithAuth("http://scientific-conference-backend.tutik/api/admin-panel/", {
                     headers: { "Authorization": `Bearer ${token}` }
                 });
                 if (!res.ok) {

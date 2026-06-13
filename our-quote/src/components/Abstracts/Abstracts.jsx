@@ -11,7 +11,7 @@ export default function Abstracts() {
     const location = useLocation();
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/abstracts/")
+        fetch("http://scientific-conference-backend.tutik/api/abstracts/")
             .then(res => res.json())
             .then(data => {
                 setAbstracts(data);

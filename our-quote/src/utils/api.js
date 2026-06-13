@@ -21,7 +21,7 @@ export async function refreshAccessToken() {
   }
 
   try {
-    const response = await fetch("http://localhost:8000/api/auth/refresh/", {
+    const response = await fetch("http://scientific-conference-backend.tutik/api/auth/refresh/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

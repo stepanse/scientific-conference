@@ -64,9 +64,9 @@ export default function EditProgram() {
     const token = localStorage.getItem("access_token");
     try {
       const [talksRes, programRes, sessionsRes] = await Promise.all([
-        fetch('http://localhost:8000/api/admin/talks/unscheduled/', { headers: { "Authorization": `Bearer ${token}` } }),
-        fetch('http://localhost:8000/api/program/'),
-        fetch('http://localhost:8000/api/admin/sessions/', { headers: { "Authorization": `Bearer ${token}` } }),
+        fetch('http://scientific-conference-backend.tutik/api/admin/talks/unscheduled/', { headers: { "Authorization": `Bearer ${token}` } }),
+        fetch('http://scientific-conference-backend.tutik/api/program/'),
+        fetch('http://scientific-conference-backend.tutik/api/admin/sessions/', { headers: { "Authorization": `Bearer ${token}` } }),
       ]);
       setUnscheduledTalks(await talksRes.json());
       setDays(await programRes.json());
@@ -82,7 +82,7 @@ export default function EditProgram() {
   async function createDay(date) {
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch('http://localhost:8000/api/admin/days/create/', {
+      const res = await fetch('http://scientific-conference-backend.tutik/api/admin/days/create/', {
         method: 'POST',
         headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ date })
@@ -95,7 +95,7 @@ export default function EditProgram() {
   async function scheduleTalk(talkId, dayId, startTime, endTime, sessionId = null) {
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch(`http://localhost:8000/api/admin/talks/${talkId}/schedule/`, {
+      const res = await fetch(`http://scientific-conference-backend.tutik/api/admin/talks/${talkId}/schedule/`, {
         method: 'PATCH',
         headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ day: dayId, start_time: startTime, end_time: endTime, session: sessionId })
@@ -109,7 +109,7 @@ export default function EditProgram() {
     if (!window.confirm('Are you sure you want to delete this talk?')) return;
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch(`http://localhost:8000/api/admin/talks/${talkId}/delete/`, {
+      const res = await fetch(`http://scientific-conference-backend.tutik/api/admin/talks/${talkId}/delete/`, {
         method: 'DELETE',
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -121,7 +121,7 @@ export default function EditProgram() {
   async function createSession(dayId, chair) {
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch('http://localhost:8000/api/admin/sessions/create/', {
+      const res = await fetch('http://scientific-conference-backend.tutik/api/admin/sessions/create/', {
         method: 'POST',
         headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ day: dayId, chair })
@@ -134,7 +134,7 @@ export default function EditProgram() {
   async function createBreak(dayId, title, startTime, endTime) {
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch('http://localhost:8000/api/admin/talks/create-break/', {
+      const res = await fetch('http://scientific-conference-backend.tutik/api/admin/talks/create-break/', {
         method: 'POST',
         headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ day: dayId, title, talk_type: 'break', start_time: startTime, end_time: endTime })
@@ -147,8 +147,8 @@ export default function EditProgram() {
   async function updateTime(type, id, startTime, endTime) {
     const token = localStorage.getItem("access_token");
     const url = type === 'session'
-      ? `http://localhost:8000/api/admin/sessions/${id}/update-time/`
-      : `http://localhost:8000/api/admin/talks/${id}/schedule/`;
+      ? `http://scientific-conference-backend.tutik/api/admin/sessions/${id}/update-time/`
+      : `http://scientific-conference-backend.tutik/api/admin/talks/${id}/schedule/`;
     try {
       const res = await fetch(url, {
         method: 'PATCH',

@@ -3,7 +3,7 @@ import avatar from '../../../assets/avatar.png';
 
 export default function HomeCard({ name, department, email, photo }) {
 const imgSrc = photo
-  ? (photo.startsWith("http") ? photo : `http://localhost:8000${photo}`)
+  ? (photo.startsWith("http") ? photo : `http://scientific-conference-backend.tutik${photo}`)
   : avatar;
   return (
     <div className={styles.card}>

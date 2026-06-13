@@ -5,8 +5,8 @@ import Title from '../ui/Title/Title';
 import Loader from '../ui/Loader/Loader';
 import { fetchWithAuth } from '../../utils/api';
 
-const API = 'http://localhost:8000/api';
-const BASE = 'http://localhost:8000';
+const API = 'http://scientific-conference-backend.tutik/api';
+const BASE = 'http://scientific-conference-backend.tutik';
 
 function getMediaUrl(path) {
   if (!path) return null;

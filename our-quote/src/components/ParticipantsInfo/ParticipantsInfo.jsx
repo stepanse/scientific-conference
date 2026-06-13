@@ -16,7 +16,7 @@ export default function ParticipantsInfo() {
   async function fetchSubmissions() {
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch('http://localhost:8000/api/admin/submissions/?status=', {
+      const res = await fetch('http://scientific-conference-backend.tutik/api/admin/submissions/?status=', {
         headers: { "Authorization": `Bearer ${token}` }
       });
       const data = await res.json();

@@ -8,7 +8,7 @@ export default function Hiking() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/hiking/')
+    fetch('http://scientific-conference-backend.tutik/api/hiking/')
       .then(r => r.json())
       .then(data => { setRoutes(data); setLoading(false); })
       .catch(() => setLoading(false));

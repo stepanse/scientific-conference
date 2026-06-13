@@ -7,7 +7,7 @@ export default function Accommodation() {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/accommodation/")
+        fetch("http://scientific-conference-backend.tutik/api/accommodation/")
             .then(res => res.json())
             .then(setData);
     }, []);
@@ -29,7 +29,7 @@ export default function Accommodation() {
                                 <div key={option.id} className={styles.option}>
                                     {option.photo && (
                                         <img
-                                            src={`http://localhost:8000${option.photo}`}
+                                            src={`http://scientific-conference-backend.tutik${option.photo}`}
                                             alt={option.name}
                                             className={styles.photo}
                                         />
