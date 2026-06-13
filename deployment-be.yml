@@ -12,20 +12,10 @@ spec:
       labels:
         app: scientific-conference-backend
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsNonRoot: true
-        seccompProfile:
-          type: RuntimeDefault
       containers:
       - name: scientific-conference-backend
         image: "ghcr.io/stepanse/scientific-conference-backend:main"
         imagePullPolicy: Always
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
         volumeMounts:
         - mountPath: /project/db/
           name: dbvol
