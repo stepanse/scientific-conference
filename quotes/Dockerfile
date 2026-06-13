@@ -27,4 +27,4 @@ EXPOSE 8000
 
 # collect static files, perform database migrations and run the webserver
 #CMD python manage.py collectstatic --no-input --clear && python manage.py migrate && gunicorn main.wsgi --bind 0.0.0.0:8000
-CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+CMD python manage.py migrate && python manage.py loaddata core/fixtures/program.json && python manage.py runserver 0.0.0.0:8000
