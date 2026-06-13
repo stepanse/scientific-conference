@@ -25,5 +25,12 @@ spec:
           capabilities:
             drop:
               - ALL
+        volumeMounts:
+        - mountPath: /project/db/
+          name: dbvol
         ports:
         - containerPort: 8000
+      volumes:
+      - name: dbvol
+        persistentVolumeClaim:
+          claimName: scientific-conference-be-db-pvc
