@@ -20,6 +20,7 @@ spec:
       containers:
       - name: scientific-conference-frontend
         image: "ghcr.io/stepanse/scientific-conference-frontend:main"
+        imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
