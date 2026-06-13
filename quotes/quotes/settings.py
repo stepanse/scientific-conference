@@ -168,7 +168,7 @@ REST_FRAMEWORK = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
+    "http://scientific-conference.tutik",
 ]
 
 
@@ -176,7 +176,7 @@ CSRF_TRUSTED_ORIGINS = [
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://scientific-conference.tutik",
 ]
 
 CORS_ALLOW_METHODS = [
