@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-52pd49we3-&2sh3e2am)s3qea8j1e&h60w(^q#e)6%%bet$9)@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['scientific-conference-backend.tutik']
 
 
 # Application definition
