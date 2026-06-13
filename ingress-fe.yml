@@ -6,7 +6,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-  - host: "stepanse-scientific-conference.tutik"
+  - host: "scientific-conference.tutik"
     http:
       paths:
       - path: /
