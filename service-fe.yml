@@ -7,6 +7,6 @@ spec:
   ports:
   - name: scientific-conference-frontend-port
     port: 80
-    targetPort: 8000
+    targetPort: 3000
   selector:
     app: scientific-conference-frontend
