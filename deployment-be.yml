@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: scientific-conference-backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: scientific-conference-backend
