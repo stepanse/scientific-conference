@@ -19,7 +19,7 @@ RUN --mount=type=cache,target=/root/.npm npm ci
 COPY . .
 
 # FIXME: this should not be hardcoded
-ARG REACT_APP_BACKEND_API_BASE_URL=https://mmg-webapps.fjfi.cvut.cz/conference-demo
+#ARG REACT_APP_BACKEND_API_BASE_URL=https://mmg-webapps.fjfi.cvut.cz/conference-demo
 
 # Build the React.js application (outputs to /app/build)
 RUN npm run build
