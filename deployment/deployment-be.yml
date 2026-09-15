@@ -26,6 +26,8 @@ spec:
             value: "scientific-conference-backend.tutik,scientific-conference-backend,localhost,127.0.0.1"
           - name: DJANGO_DEBUG
             value: "False"
+          - name: DJANGO_CSRF_TRUSTED_ORIGINS
+            value: "http://scientific-conference.tutik"
             
         volumeMounts:
         - mountPath: /project/db/
