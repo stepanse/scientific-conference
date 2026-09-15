@@ -16,6 +16,13 @@ spec:
       - name: scientific-conference-backend
         image: "ghcr.io/stepanse/scientific-conference-backend:main"
         imagePullPolicy: Always
+        env:
+          - name: DJANGO_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: scientific-conference-backend-secrets
+                key: DJANGO_SECRET_KEY
+            
         volumeMounts:
         - mountPath: /project/db/
           name: dbvol
